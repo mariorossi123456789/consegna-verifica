@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Risultati verifica di analisi logica (docente)</title><style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2433;--mut:#5b6577;--line:#d5dae3;--acc:#24509b;--okb:#e6f4ec;--ok:#1e6b3a;--kob:#fbe4e1;--ko:#a3271d;--dbb:#fff3d6;--db:#8a5a00;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141821;--card:#1c2230;--ink:#e8ebf2;--mut:#9aa4b8;--line:#333f57;--acc:#8fb1ee;--okb:#17301f;--ok:#6fd39b;--kob:#3a1c1a;--ko:#ff9a92;--dbb:#3a2f12;--db:#f0c36a}}
+:root[data-theme="dark"]{--bg:#141821;--card:#1c2230;--ink:#e8ebf2;--mut:#9aa4b8;--line:#333f57;--acc:#8fb1ee;--okb:#17301f;--ok:#6fd39b;--kob:#3a1c1a;--ko:#ff9a92;--dbb:#3a2f12;--db:#f0c36a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:16px}
+main{max-width:900px;margin:0 auto}h1{font:700 1.5rem Georgia,serif;margin:.2em 0}
+.box{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:12px}
+.warn{color:var(--ko);font-weight:600;font-size:.9rem}
+textarea{width:100%;font:.85rem monospace;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+button{font:inherit;font-weight:600;padding:8px 16px;border-radius:6px;border:1px solid var(--acc);background:var(--acc);color:#fff;cursor:pointer;margin-right:8px}
+button.s{background:transparent;color:var(--acc)}
+h2{margin:0 0 4px;font-size:1.2rem}.sum{color:var(--mut);margin:2px 0 2px}.voto{font-weight:700;color:var(--acc);margin:0 0 8px}
+.sent{margin:14px 0 4px;font-family:Georgia,serif}.sent b{font-family:system-ui,sans-serif;color:var(--acc)}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{padding:5px 8px;border:1px solid var(--line);text-align:left}th{background:var(--bg)}
+.ok td:nth-child(n+2){background:var(--okb);color:var(--ok)}.err td:nth-child(n+2){background:var(--kob);color:var(--ko)}.deb td:nth-child(n+2){background:var(--dbb);color:var(--db)}
+.only .ok,.only .sentok{display:none}label{font-size:.9rem}
+@media print{.noprint{display:none}body{background:#fff;color:#000}.stu{break-before:page}}
+</style></head><body><main>
+<h1>Risultati verifica di analisi logica (40 frasi)</h1>
+<div class="box noprint"><p class="warn">Solo per l'insegnante: questa pagina contiene le soluzioni. Non condividere il link con gli alunni.</p>
+<p>Incolla i codici ricevuti, uno per riga, nel formato "Nome | codice".</p>
+<textarea id="in" rows="6"></textarea>
+<p><button id="go">Mostra risultati</button><button class="s" id="pr">Stampa / salva PDF</button> <label><input type="checkbox" id="only"> mostra solo errori e discutibili</label></p></div>
+<div id="out"></div></main><script>
+const L={S:"Soggetto",PV:"Predicato verbale",PN:"Predicato nominale",O:"Compl. oggetto",Sp:"Compl. di specificazione",D:"Compl. di denominazione",T:"Compl. di termine",Pt:"Compl. partitivo",Ag:"Compl. d'agente",Ce:"Compl. di causa efficiente",C:"Compl. di causa",F:"Compl. di fine",Mz:"Compl. di mezzo",Md:"Compl. di modo",Cp:"Compl. di compagnia o unione",Ls:"Compl. di stato in luogo",La:"Compl. di moto a luogo",Ld:"Compl. di moto da luogo",Lp:"Compl. di moto per luogo",Td:"Compl. di tempo determinato",Tc:"Compl. di tempo continuato"},K=Object.keys(L);
+const D=`Il chirurgo:S|di quell'ospedale:Sp|è diventato famoso:PN~PV|in tutta la regione:Ls|dopo l'operazione:Td|grazie alla sua abilità:C~Mz|con grande umiltà:Md
+Il postino:S|consegna:PV|un pacco:O|al vicino:T|con la bicicletta:Mz|ogni mattina:Tc~Td|davanti al portone:Ls
+I ragazzi:S|hanno raccolto:PV|le castagne:O|nel bosco:Ls|con dei cesti:Mz|durante tutto il pomeriggio:Tc|per la merenda:F
+La squadra:S|di calcio:Sp|ha vinto:PV|la partita:O|allo stadio comunale:Ls|grazie al portiere:C|con grande orgoglio:Md
+Il fiume:S|Po:D|attraversa:PV|molte città:O|del nord Italia:Sp|per centinaia di chilometri:Lp|verso il mare Adriatico:La|in ogni stagione:Tc~Td
+Gli alunni:S|scrivono:PV|una lettera:O|alla preside:T|con la penna:Mz|prima della gita:Td|in classe:Ls
+Il ladro:S|è stato arrestato:PV|dai carabinieri:Ag|per il furto:C|vicino alla stazione:Ls|dopo l'inseguimento:Td|senza alcuna resistenza:Md
+La torre:S|di Pisa:D|è diventata famosa:PN~PV|in tutto il mondo:Ls|per la sua inclinazione:C|agli occhi dei turisti:T|dopo il restauro:Td
+Alcuni studenti:S|hanno partecipato:PV|alla gara:T|di matematica:Sp|con entusiasmo:Md|nell'aula magna:Ls|durante l'intero pomeriggio:Tc
+Il vento:S|ha rotto:PV|il ramo:O|dell'albero:Sp|con grande violenza:Md|durante la tempesta:Tc|sopra il tetto:Ls
+La finestra:S|è stata rotta:PV|dal vento:Ce|durante la notte:Tc|con grande fragore:Md|nella vecchia casa:Ls|per la sua vecchiaia:C
+Molti abitanti:S|del paese:Sp|hanno lasciato:PV|le proprie case:O|a causa dell'alluvione:C|verso le colline:La|con poche valigie:Md~Cp|insieme ai vicini:Cp
+Il professore:S|premia:PV|il migliore:O|della classe:Pt|con un libro:Mz|per l'impegno:C|alla fine dell'anno:Td
+Pochi:S|tra gli studenti:Pt|hanno superato:PV|l'esame:O|al primo tentativo:Td|con un voto alto:Md|grazie allo studio:C~Mz
+Marco:S|è diventato il capitano:PN~PV|della squadra:Sp|per la sua esperienza:C|davanti a tutti i compagni:Ls|dopo anni di allenamento:Td|con grande soddisfazione:Md
+Il cane:S|di Luca:Sp|insegue:PV|il gatto:O|del vicino:Sp|per il giardino:Lp|con grande entusiasmo:Md
+Gli operai:S|hanno costruito:PV|una scuola:O|nel quartiere:Ls|con molta cura:Md|per gli abitanti:F|in pochi mesi:Tc|vicino alla chiesa:Ls
+Il gatto:S|della vicina:Sp|dorme:PV|sul divano:Ls|con il suo padrone:Cp|per tutto il pomeriggio:Tc|a causa del freddo:C
+Il capitano:S|guida:PV|la nave:O|verso il porto:La|con i marinai:Cp|durante la tempesta:Tc|senza alcuna paura:Md
+La lettera:S|è stata scritta:PV|da Anna:Ag|per il fratello:F|con inchiostro blu:Mz|nella sua camera:Ls|prima di cena:Td
+Gli scienziati:S|hanno scoperto:PV|un nuovo pianeta:O|con il telescopio:Mz|dopo anni di ricerche:Td|con grande sorpresa:Md|per gli studi futuri:F
+Quel ragazzo:S|sembra il più bravo:PN~PV|della scuola:Pt|per i suoi risultati:C|agli occhi di tutti:T|durante le gare:Tc|con merito:Md
+I turisti:S|visitano:PV|il museo:O|di Firenze:D|con una guida:Cp|per tutta la mattina:Tc|con grande curiosità:Md
+Il bambino:S|corre:PV|verso la madre:La|dal parco:Ld|con le scarpe slacciate:Md~Mz|dopo la partita:Td|per la felicità:C
+Il pacco:S|è arrivato:PV|dalla Germania:Ld|per errore:C|all'indirizzo sbagliato:La|dopo due settimane:Td|con molto ritardo:Md
+I contadini:S|raccolgono:PV|l'uva:O|dai filari:Ld~Ls|con le forbici:Mz|durante la vendemmia:Tc|per il vino nuovo:F|vicino al fiume:Ls
+La casa:S|dei nonni:Sp|si trova:PV|in campagna:Ls|lontano dal paese:Ls|con un grande giardino:Cp|da molti anni:Tc
+Il professore:S|spiega:PV|la lezione:O|agli alunni:T|con pazienza:Md|davanti alla lavagna:Ls|ogni giorno:Tc~Td
+Quell'uomo:S|è diventato un eroe:PN~PV|per il suo coraggio:C|agli occhi della gente:T|dopo il salvataggio:Td|in tutta la città:Ls|senza alcuna esitazione:Md
+Il vaso:S|è stato rotto:PV|dal gatto:Ag~Ce|per gioco:C~Md|sopra il tavolo:Ls|durante la notte:Td|con un solo colpo:Mz~Md
+Gli alpinisti:S|hanno raggiunto:PV|la vetta:O|del monte Bianco:Sp|dopo giorni di cammino:Td|con grande fatica:Md|per la loro passione:C~F|sulle Alpi:Ls
+Il treno:S|parte:PV|dalla stazione:Ld|per Milano:La|alle sette:Td|con un lieve ritardo:Md|ogni giorno feriale:Tc~Td
+La torta:S|è stata preparata:PV|dalla nonna:Ag|per il compleanno:F|con amore:Md|in poche ore:Tc~Td|nella grande cucina:Ls
+Il sindaco:S|incontra:PV|i cittadini:O|in municipio:Ls|con il vicesindaco:Cp|ogni lunedì mattina:Tc~Td|per un'ora:Tc
+Alcuni:S|dei presenti:Pt|hanno applaudito:PV|l'attore:O|con entusiasmo:Md|alla fine dello spettacolo:Td|nel loggione:Ls
+Quella ragazza:S|è la più simpatica:PN~PV|del gruppo:Pt|per il suo sorriso:C|agli occhi di tutti:T|durante le feste:Tc|senza dubbio:Md
+Il quadro:S|è stato dipinto:PV|da un grande artista:Ag|per il museo:F|con colori vivaci:Mz|nel diciannovesimo secolo:Td|in uno studio di Parigi:Ls
+I pompieri:S|salvano:PV|il gatto:O|dall'albero:Ld|con una scala:Mz|insieme ai vicini:Cp|in pochi minuti:Tc
+La nave:S|è stata affondata:PV|dalla tempesta:Ce|al largo delle coste:Ls|durante la notte:Tc|con grande violenza:Md|per il forte vento:C
+Gli abitanti:S|del villaggio:Sp|festeggiano:PV|il santo patrono:O|in piazza:Ls|con canti e balli:Md~Cp|ogni anno:Tc~Td|per tradizione:C`.split("\n").map(r=>r.split("|").map(c=>{const i=c.lastIndexOf(":"),t=c.slice(0,i);let k=c.slice(i+1),a=null;if(k.includes("~"))[k,a]=k.split("~");return{t,k,a}}));
+const tot=D.reduce((n,f)=>n+f.length,0),out=document.getElementById("out");
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sh=k=>L[k].replace("Compl. di ","");
+const voto=n=>(Math.round(n/tot*20)/2).toFixed(1).replace(".",",");
+function stud(nome,code){
+if(code.length!==tot)return `<div class="box"><h2>${esc(nome)}</h2><p class="warn">Codice non valido: ${code.length} caratteri, attesi ${tot}.</p></div>`;
+let n=0,c={ok:0,deb:0,err:0},h="";
+D.forEach((f,i)=>{let rows="",bad=0;
+f.forEach(x=>{const g=code[n++],given=g==="-"?null:K[g.charCodeAt(0)-97];
+let st=given===x.k?"ok":(x.a&&given===x.a?"deb":"err");c[st]++;if(st!=="ok")bad++;
+const es=st==="ok"?"Corretto":st==="deb"?`Discutibile: accettabile anche ${sh(x.a)} (chiave: ${sh(x.k)})`:`Errato. Corretto: ${L[x.k]}`;
+rows+=`<tr class="${st}"><td>${esc(x.t)}</td><td>${given?L[given]:"(nessuna risposta)"}</td><td>${es}</td></tr>`});
+h+=`<div class="${bad?"":"sentok"}"><p class="sent"><b>Frase ${i+1}.</b> ${esc(f.map(x=>x.t).join(" "))}.</p><div class="tw"><table><tr><th>Parte della frase</th><th>Risposta dell'alunno</th><th>Esito</th></tr>${rows}</table></div></div>`});
+const votoStr=c.deb?`Voto: ${voto(c.ok)} (se le risposte discutibili contano sbagliate) — ${voto(c.ok+c.deb)} (se contano giuste)`:`Voto: ${voto(c.ok)}`;
+return `<div class="box stu"><h2>${esc(nome)}</h2><p class="sum">Corrette: ${c.ok} su ${tot} | discutibili: ${c.deb} | errate: ${c.err}</p><p class="voto">${votoStr}</p>${h}</div>`}
+document.getElementById("go").onclick=()=>{const ls=document.getElementById("in").value.split("\n").filter(l=>l.includes("|"));
+out.innerHTML=ls.length?ls.map(l=>{const i=l.lastIndexOf("|");return stud(l.slice(0,i).trim()||"(senza nome)",l.slice(i+1).trim())}).join(""):'<div class="box">Nessun codice trovato. Usa il formato "Nome | codice".</div>'};
+document.getElementById("only").onchange=e=>out.classList.toggle("only",e.target.checked);
+document.getElementById("pr").onclick=()=>window.print();
+</script></body></html>
